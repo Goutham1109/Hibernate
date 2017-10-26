@@ -1,0 +1,42 @@
+package Student.Studenthib;
+
+import javax.imageio.spi.ServiceRegistry;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistryBuilder;
+
+import Aliens.hibs.Teacher;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	Students s=new Students();
+    	s.setId(101);
+    	s.setName("raja");
+    	
+    	Teacher tr= new Teacher();
+    	tr.setId(1);
+    	tr.setName("rani");
+    	
+    	s.setTeacher(tr);
+    
+    	Configuration con=new Configuration().configure().addAnnotatedClass(Students.class).addAnnotatedClass(Teacher.class);
+    	//ServiceRegistry sr=(ServiceRegistry) new ServiceRegistryBuilder().applySettings(con.getProperties()).buildServiceRegistry());
+    	SessionFactory sf=con.buildSessionFactory();
+    	
+    	Session session=sf.openSession();
+    	Transaction t=session.beginTransaction();
+    	session.persist(s);
+    	session.persist(tr);
+    	t.commit();
+    	
+    }
+}
